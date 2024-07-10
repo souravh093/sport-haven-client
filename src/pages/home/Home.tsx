@@ -1,5 +1,6 @@
 import Banner from "./Banner"
 import Category from "./Category"
+import Contact from "./Contact"
 import FeatureProduct from "./FeatureProduct"
 
 const Home = () => {
@@ -8,6 +9,7 @@ const Home = () => {
         <Banner />
         <FeatureProduct />
         <Category />
+        <Contact />
     </div>
   )
 }
