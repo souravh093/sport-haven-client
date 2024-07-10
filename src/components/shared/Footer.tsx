@@ -1,22 +1,22 @@
 import {
   FacebookIcon,
   InstagramIcon,
-  MountainIcon,
   TwitterIcon,
   YoutubeIcon,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Container from "./Container";
+import logo from "../../assets/volleyball.png";
 
 const Footer = () => {
   return (
     <footer className="bg-black py-12">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="flex items-center">
-            <Link to={"#"} className="flex items-center gap-2">
-              <MountainIcon className="w-8 h-8" />
-              <span className="text-xl font-bold">Sportify</span>
+          <div className="flex">
+            <Link to={"#"} className="flex items-center gap-2 text-gray-200">
+              <img src={logo} alt="footer logo" className="invert w-8"  />
+              <h1 className="font-black text-2xl">SPORTHAVEN</h1>
             </Link>
           </div>
           <nav className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -24,10 +24,10 @@ const Footer = () => {
               Home
             </Link>
             <Link to={"#"} className="text-muted-foreground hover:underline">
-              Shop
+              All Product
             </Link>
             <Link to={"#"} className="text-muted-foreground hover:underline">
-              About
+              About Us
             </Link>
             <Link to={"#"} className="text-muted-foreground hover:underline">
               Contact
@@ -55,7 +55,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="container max-w-7xl mt-8 text-center text-xs text-muted-foreground">
-          &copy; 2024 Sportify. All rights reserved.
+          &copy; 2024 SPORTHAVEN. All rights reserved.
         </div>
       </Container>
     </footer>

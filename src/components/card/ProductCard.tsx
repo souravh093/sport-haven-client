@@ -1,13 +1,15 @@
 import Rating from "react-rating";
 import { Link } from "react-router-dom";
 import productImage from "../../assets/slider2.jpg";
-const ProductCard = ({ product }) => {
+import { TProduct } from "@/types/ProductInterface";
+
+const ProductCard = ({ product }: { product: TProduct }) => {
   const { name, category, brand, stockQuantity, rating, price, image } =
     product;
   return (
     <div className="group relative overflow-hidden rounded-lg bg-gray-800 border-gray-700 border shadow-lg transition-all duration-300 hover:shadow-xl">
       <img
-        src={productImage}
+        src={image ? image : productImage}
         alt="Product Image"
         width={400}
         height={300}
@@ -25,7 +27,9 @@ const ProductCard = ({ product }) => {
             In Stock: {stockQuantity}
           </span>
         </div>
-        <h3 className="mt-2 text-lg text-white font-semibold line-clamp-1">{name}</h3>
+        <h3 className="mt-2 text-lg text-white font-semibold line-clamp-1">
+          {name}
+        </h3>
         <div className="mt-2 flex items-center space-x-2">
           <Rating
             initialRating={3.5}
