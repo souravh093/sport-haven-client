@@ -4,7 +4,7 @@ import productImage from "../../assets/slider2.jpg";
 import { TProduct } from "@/types/ProductInterface";
 
 const ProductCard = ({ product }: { product: TProduct }) => {
-  const { name, category, brand, stockQuantity, rating, price, image } =
+  const { _id, name, category, brand, stockQuantity, rating, price, image } =
     product;
   return (
     <div className="group relative overflow-hidden rounded-lg bg-gray-800 border-gray-700 border shadow-lg transition-all duration-300 hover:shadow-xl">
@@ -72,7 +72,7 @@ const ProductCard = ({ product }: { product: TProduct }) => {
         <div className="mt-4 flex items-center justify-between">
           <span className="text-lg font-bold text-gray-400">${price}</span>
           <Link
-            to={`/products/${product.id}`}
+            to={`/single-product/${_id}`}
             className="px-4 py-2 bg-primary text-white font-semibold rounded-md hover:bg-primary-dark transition-all duration-300"
           >
             View Details

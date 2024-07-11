@@ -10,14 +10,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
+import { toast } from "@/components/ui/use-toast";
+import {
+  useDeleteProductMutation,
+  useGetAllProductsQuery,
+} from "@/redux/features/product/productApi";
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
 type TProduct = {
-  id: string;
+  _id: string;
   name: string;
   price: number;
   brand: string;
@@ -33,6 +37,20 @@ const ManageProducts = () => {
     setSearchTerm(e.target.value);
   };
   const { data: products } = useGetAllProductsQuery(undefined);
+
+  const [deleteProduct] = useDeleteProductMutation(undefined);
+
+  const handleDeleteProduct = async (id: string) => {
+    const res = await deleteProduct(id).unwrap();
+
+    if (res.success) {
+      toast({
+        variant: "default",
+        description: res?.message,
+      });
+    }
+  };
+
   return (
     <div className="bg-gray-900 py-8 min-h-[calc(100vh-272px)]">
       <Container>
@@ -78,12 +96,13 @@ const ManageProducts = () => {
                 {products?.data?.map(
                   (
                     {
+                      _id,
                       name,
                       price,
                       brand,
                       category,
                       stockQuantity,
-                    //   rating,
+                      //   rating,
                       image,
                     }: TProduct,
                     index: number
@@ -122,7 +141,11 @@ const ManageProducts = () => {
                         <Button size="sm" className="bg-primary mr-2">
                           <FaEdit />
                         </Button>
-                        <Button size="sm" className="bg-red-500">
+                        <Button
+                          onClick={() => handleDeleteProduct(_id)}
+                          size="sm"
+                          className="bg-red-500"
+                        >
                           <MdDeleteOutline />
                         </Button>
                       </TableCell>
