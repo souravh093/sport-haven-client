@@ -1,4 +1,5 @@
 import CreateProduct from "@/components/modal/CreateProduct";
+import EditProduct from "@/components/modal/EditProduct";
 import Container from "@/components/shared/Container";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,21 +16,13 @@ import {
   useDeleteProductMutation,
   useGetAllProductsQuery,
 } from "@/redux/features/product/productApi";
+import { TProduct } from "@/types/ProductInterface";
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
-type TProduct = {
-  _id: string;
-  name: string;
-  price: number;
-  brand: string;
-  category: string;
-  stockQuantity: number;
-  rating: number;
-  image: string;
-};
+
 
 const ManageProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -138,9 +131,7 @@ const ManageProducts = () => {
                         {4.3}
                       </TableCell>
                       <TableCell className="text-right text-gray-300">
-                        <Button size="sm" className="bg-primary mr-2">
-                          <FaEdit />
-                        </Button>
+                        <EditProduct id={_id} />
                         <Button
                           onClick={() => handleDeleteProduct(_id)}
                           size="sm"

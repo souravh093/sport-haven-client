@@ -10,27 +10,19 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PlusIcon } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { DialogClose, DialogTitle } from "@radix-ui/react-dialog";
-import { useCreateProductMutation } from "@/redux/features/product/productApi";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { useGetSingleProductQuery, useUpdateProductMutation } from "@/redux/features/product/productApi";
 import { useState } from "react";
 import { toast } from "../ui/use-toast";
+import { FormValues } from "@/types/FormInterface";
+import { FaEdit } from "react-icons/fa";
 
-type FormValues = {
-  name: string;
-  price: number;
-  brand: string;
-  category: string;
-  quantity: number;
-  description: string;
-  image: FileList;
-};
-
-const CreateProduct = () => {
+const EditProduct = ({ id }: { id: string }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [createProduct, { isLoading }] = useCreateProductMutation();
+  const { data: product, isLoading } = useGetSingleProductQuery(id);
+  const [updateProduct, {isLoading: isUpdating}] = useUpdateProductMutation();
   const {
     register,
     handleSubmit,
@@ -40,6 +32,8 @@ const CreateProduct = () => {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { name, price, brand, category, quantity, description, image } = data;
+
+    console.log(data)
 
     const formData = new FormData();
     formData.append("name", name);
@@ -55,18 +49,21 @@ const CreateProduct = () => {
     }
 
     try {
-      const res = await createProduct(formData).unwrap();
+      const res = await updateProduct({ id, data: formData }).unwrap();
+
+      console.log(res)
 
       if (res.success) {
         toast({
           variant: "default",
-          description: "Product added successfully",
+          description: "Product updated successfully",
         });
       }
     } catch (error) {
+        console.log(error)
       toast({
         variant: "destructive",
-        description: "Failed to add product",
+        description: "Failed to update product",
       });
     }
   };
@@ -78,12 +75,17 @@ const CreateProduct = () => {
     }
   };
 
+  if (isLoading) return <p>Loading...</p>;
+
+  const { name, price, stockQuantity, image, category, brand, description } =
+    product.data;
+
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm" className="bg-gray-800 text-gray-400">
-          <PlusIcon className="h-4 w-4 mr-2" />
-          Add Product
+        <Button size="sm" className="bg-primary mr-2">
+          <FaEdit />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl bg-gray-800 border border-gray-700 text-white">
@@ -105,10 +107,10 @@ const CreateProduct = () => {
                 {errors.image.message}
               </p>
             )}
-            {selectedImage && (
+            {image && (
               <div className="mt-4">
                 <img
-                  src={selectedImage}
+                  src={image}
                   alt="Selected"
                   className="h-40 w-40 object-cover rounded-md"
                 />
@@ -122,7 +124,7 @@ const CreateProduct = () => {
               {...register("name", { required: "Product name is required" })}
               id="name"
               type="text"
-              placeholder="Enter product name"
+              defaultValue={name}
               className="bg-gray-900 text-gray-300 placeholder-gray-500 outline-none border-gray-800"
             />
             {errors.name && (
@@ -140,7 +142,7 @@ const CreateProduct = () => {
               })}
               id="price"
               type="number"
-              placeholder="Enter product price"
+              defaultValue={price}
               className="bg-gray-900 text-gray-300 placeholder-gray-500 outline-none border-gray-800"
             />
             {errors.price && (
@@ -156,6 +158,7 @@ const CreateProduct = () => {
             <Controller
               name="brand"
               control={control}
+              defaultValue={brand}
               rules={{ required: "Brand is required" }}
               render={({ field }) => (
                 <Select {...field} onValueChange={field.onChange}>
@@ -212,6 +215,7 @@ const CreateProduct = () => {
             <Controller
               name="category"
               control={control}
+              defaultValue={category}
               rules={{ required: "Category is required" }}
               render={({ field }) => (
                 <Select {...field} onValueChange={field.onChange}>
@@ -272,7 +276,7 @@ const CreateProduct = () => {
               })}
               id="quantity"
               type="number"
-              placeholder="Enter product quantity"
+              defaultValue={stockQuantity}
               className="bg-gray-900 text-gray-300 placeholder-gray-500 outline-none border-gray-800"
             />
             {errors.quantity && (
@@ -290,8 +294,8 @@ const CreateProduct = () => {
                 required: "Description is required",
               })}
               id="description"
+              defaultValue={description}
               rows={8}
-              placeholder="Enter product description"
               className="bg-gray-900 text-gray-300 placeholder-gray-500 outline-none border-gray-800"
             />
             {errors.description && (
@@ -305,7 +309,7 @@ const CreateProduct = () => {
             type="submit"
             className="w-full bg-gray-700 text-white hover:bg-gray-600 transition-colors"
           >
-            {isLoading ? "Adding..." : "Add Product"}
+            {isLoading ? "Updating..." : "Update Product"}
           </Button>
         </form>
       </DialogContent>
@@ -313,4 +317,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default EditProduct;
