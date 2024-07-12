@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { PlusIcon } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { DialogClose, DialogTitle } from "@radix-ui/react-dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
 import { useCreateProductMutation } from "@/redux/features/product/productApi";
 import { useState } from "react";
 import { toast } from "../ui/use-toast";

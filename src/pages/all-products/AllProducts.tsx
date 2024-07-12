@@ -26,26 +26,26 @@ const AllProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<{
     category: string[];
-    price: { min: number; max: number };
+    // price: { min: number; max: number };
     brand: string[];
-    rating: number;
+    // rating: number;
   }>({
     category: [],
-    price: { min: 0, max: Infinity },
+    // price: { min: 0, max: Infinity },
     brand: [],
-    rating: 0,
+    // rating: 0,
   });
   const [sortOrder, setSortOrder] = useState("asc");
 
-  const { data: products } = useGetAllProductsQuery(undefined);
+  const { data: products } = useGetAllProductsQuery({
+    searchTerm,
+    sort: sortOrder,
+    filters,
+  });
 
   console.log(
-    "searchTerm =>",
-    searchTerm,
     "filters =>",
     filters,
-    "sortOrder =>",
-    sortOrder
   );
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,14 +60,7 @@ const AllProducts = () => {
         : [...prevFilters.category, category],
     }));
   };
-
-  //   const handlePriceFilter = (min: number, max: number) => {
-  //     setFilters((prevFilters) => ({
-  //       ...prevFilters,
-  //       price: { min, max },
-  //     }));
-  //   };
-
+  
   const handleBrandFilter = (brand: string) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -75,6 +68,13 @@ const AllProducts = () => {
         ? prevFilters.brand.filter((b) => b !== brand)
         : [...prevFilters.brand, brand],
     }));
+  };
+  
+  const handleClearFilters = () => {
+    setFilters({
+      category: [],
+      brand: [],
+    });
   };
 
   //   const handleRatingFilter = (rating: number) => {
@@ -88,14 +88,7 @@ const AllProducts = () => {
     setSortOrder(order);
   };
 
-  const handleClearFilters = () => {
-    setFilters({
-      category: [],
-      price: { min: 0, max: Infinity },
-      brand: [],
-      rating: 0,
-    });
-  };
+
   return (
     <div className=" px-4 md:px-6 py-8 bg-gray-900 text-white">
       <Container>
@@ -266,7 +259,7 @@ const AllProducts = () => {
             </div>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
               {products?.data?.map((product: TProduct) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product._id} product={product} />
               ))}
             </div>
           </div>

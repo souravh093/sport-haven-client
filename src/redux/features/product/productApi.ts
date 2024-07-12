@@ -11,10 +11,39 @@ const productApi = baseApi.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     getAllProducts: builder.query({
-      query: () => ({
-        url: "/products",
-        method: "GET",
-      }),
+      query: ({ searchTerm, sort, fields, filters }) => {
+        console.log(filters, "hello filters");
+        const params = new URLSearchParams();
+
+        if (searchTerm) {
+          params.append("searchTerm", searchTerm);
+        }
+
+        if (sort) {
+          params.append("sort", sort);
+        }
+
+        if (fields) {
+          params.append("fields", fields);
+        }
+
+        if (filters) {
+          Object.entries(filters).forEach(([key, value]) => {
+            if (Array.isArray(value)) {
+              value.forEach((val) => {
+                params.append(`${key}[]`, val);
+              });
+            } else {
+              params.append(key, value as string);
+            }
+          });
+        }
+
+        return {
+          url: `/products?${params.toString()}`,
+          method: "GET",
+        };
+      },
       providesTags: ["Product"],
     }),
     getSingleProduct: builder.query({

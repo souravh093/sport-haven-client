@@ -13,7 +13,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "../ui/textarea";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { useGetSingleProductQuery, useUpdateProductMutation } from "@/redux/features/product/productApi";
+import {
+  useGetSingleProductQuery,
+  useUpdateProductMutation,
+} from "@/redux/features/product/productApi";
 import { useState } from "react";
 import { toast } from "../ui/use-toast";
 import { FormValues } from "@/types/FormInterface";
@@ -22,7 +25,7 @@ import { FaEdit } from "react-icons/fa";
 const EditProduct = ({ id }: { id: string }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { data: product, isLoading } = useGetSingleProductQuery(id);
-  const [updateProduct, {isLoading: isUpdating}] = useUpdateProductMutation();
+  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
   const {
     register,
     handleSubmit,
@@ -33,7 +36,7 @@ const EditProduct = ({ id }: { id: string }) => {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { name, price, brand, category, quantity, description, image } = data;
 
-    console.log(data)
+    console.log(data);
 
     const formData = new FormData();
     formData.append("name", name);
@@ -51,8 +54,6 @@ const EditProduct = ({ id }: { id: string }) => {
     try {
       const res = await updateProduct({ id, data: formData }).unwrap();
 
-      console.log(res)
-
       if (res.success) {
         toast({
           variant: "default",
@@ -60,7 +61,7 @@ const EditProduct = ({ id }: { id: string }) => {
         });
       }
     } catch (error) {
-        console.log(error)
+      console.log(error);
       toast({
         variant: "destructive",
         description: "Failed to update product",
@@ -80,7 +81,6 @@ const EditProduct = ({ id }: { id: string }) => {
   const { name, price, stockQuantity, image, category, brand, description } =
     product.data;
 
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -95,7 +95,7 @@ const EditProduct = ({ id }: { id: string }) => {
           <div className="mb-4">
             <Label htmlFor="image">Image</Label>
             <Input
-              {...register("image", { required: "Image is required" })}
+              {...register("image")}
               id="image"
               type="file"
               accept="image/*"
@@ -110,7 +110,7 @@ const EditProduct = ({ id }: { id: string }) => {
             {image && (
               <div className="mt-4">
                 <img
-                  src={image}
+                  src={selectedImage || image}
                   alt="Selected"
                   className="h-40 w-40 object-cover rounded-md"
                 />

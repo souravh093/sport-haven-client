@@ -19,17 +19,15 @@ import {
 import { TProduct } from "@/types/ProductInterface";
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
-import { FaEdit } from "react-icons/fa";
+
 import { MdDeleteOutline } from "react-icons/md";
-
-
 
 const ManageProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
-  const { data: products } = useGetAllProductsQuery(undefined);
+  const { data: products } = useGetAllProductsQuery(searchTerm);
 
   const [deleteProduct] = useDeleteProductMutation(undefined);
 
