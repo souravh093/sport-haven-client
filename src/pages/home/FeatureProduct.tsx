@@ -1,9 +1,10 @@
 import ProductCard from "@/components/card/ProductCard";
 import Container from "@/components/shared/Container";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
+import { TProduct } from "@/types/ProductInterface";
 
 const FeatureProduct = () => {
-  const { data: products } = useGetAllProductsQuery(undefined);
+  const { data: products } = useGetAllProductsQuery({});
 
   return (
     <div className="py-16 bg-gray-950">
@@ -20,8 +21,8 @@ const FeatureProduct = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {products?.data?.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {products?.data?.map((product: TProduct) => (
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </Container>

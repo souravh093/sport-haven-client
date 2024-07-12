@@ -22,31 +22,45 @@ import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import Container from "@/components/shared/Container";
 import { TProduct } from "@/types/ProductInterface";
 
+const priceRanges = [
+  { min: 0, max: 50, label: "$0 - $50" },
+  { min: 51, max: 100, label: "$51 - $100" },
+  { min: 101, max: 200, label: "$101 - $200" },
+  { min: 201, max: 500, label: "$201 - $500" },
+  { min: 501, max: 1000, label: "$501 - $1000" },
+];
+
 const AllProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<{
     category: string[];
-    // price: { min: number; max: number };
+    price: { min: number | null; max: number | null };
     brand: string[];
-    // rating: number;
+    rating: number | null;
   }>({
     category: [],
-    // price: { min: 0, max: Infinity },
+    price: { min: null, max: null },
     brand: [],
-    // rating: 0,
+    rating: null,
   });
+
+  console.log(filters, "hello filters");
   const [sortOrder, setSortOrder] = useState("asc");
 
   const { data: products } = useGetAllProductsQuery({
     searchTerm,
     sort: sortOrder,
-    filters,
+    filters: {
+      ...filters,
+      price: {
+        ...(filters.price.min !== null && { min: filters.price.min }),
+        ...(filters.price.max !== null && { max: filters.price.max }),
+      },
+      rating: filters.rating !== null ? filters.rating : undefined,
+    },
   });
 
-  console.log(
-    "filters =>",
-    filters,
-  );
+  console.log("filters =>", filters);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -60,7 +74,7 @@ const AllProducts = () => {
         : [...prevFilters.category, category],
     }));
   };
-  
+
   const handleBrandFilter = (brand: string) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -69,25 +83,39 @@ const AllProducts = () => {
         : [...prevFilters.brand, brand],
     }));
   };
-  
+
   const handleClearFilters = () => {
     setFilters({
       category: [],
       brand: [],
+      price: { min: 0, max: Infinity },
+      rating: 0,
     });
   };
-
-  //   const handleRatingFilter = (rating: number) => {
-  //     setFilters((prevFilters) => ({
-  //       ...prevFilters,
-  //       rating,
-  //     }));
-  //   };
 
   const handleSortOrder = (order: string) => {
     setSortOrder(order);
   };
 
+  const handlePriceFilter = (minPrice: number, maxPrice: number) => {
+    setFilters((prevFilters) => (
+      {
+        ...prevFilters,
+        price: {
+          min: minPrice,
+          max: maxPrice,
+        },
+      }
+    ));
+  };
+  
+
+  const handleRatingFilter = (rating: number) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      rating: prevFilters.rating === rating ? null : rating,
+    }));
+  };
 
   return (
     <div className=" px-4 md:px-6 py-8 bg-gray-900 text-white">
@@ -114,23 +142,81 @@ const AllProducts = () => {
                 <div className="grid gap-2">
                   <Label className="flex items-center gap-2">
                     <Checkbox
-                      checked={filters.category.includes("Running")}
-                      onCheckedChange={() => handleCategoryFilter("Running")}
+                      checked={filters.category.includes("Running Shoes")}
+                      onCheckedChange={() =>
+                        handleCategoryFilter("Running Shoes")
+                      }
                     />
-                    Running
+                    Running Shoes
                   </Label>
                   <Label className="flex items-center gap-2">
                     <Checkbox
-                      checked={filters.category.includes("Lifestyle")}
-                      onCheckedChange={() => handleCategoryFilter("Lifestyle")}
+                      checked={filters.category.includes("Athletic Apparel")}
+                      onCheckedChange={() =>
+                        handleCategoryFilter("Athletic Apparel")
+                      }
                     />
-                    Lifestyle
+                    Athletic Apparel
+                  </Label>
+                  <Label className="flex items-center gap-2">
+                    <Checkbox
+                      checked={filters.category.includes("Fitness Equipment")}
+                      onCheckedChange={() =>
+                        handleCategoryFilter("Fitness Equipment")
+                      }
+                    />
+                    Fitness Equipment
+                  </Label>
+                  <Label className="flex items-center gap-2">
+                    <Checkbox
+                      checked={filters.category.includes("Outdoor Gear")}
+                      onCheckedChange={() =>
+                        handleCategoryFilter("Outdoor Gear")
+                      }
+                    />
+                    Outdoor Gear
+                  </Label>
+                  <Label className="flex items-center gap-2">
+                    <Checkbox
+                      checked={filters.category.includes("Team Sports")}
+                      onCheckedChange={() =>
+                        handleCategoryFilter("Team Sports")
+                      }
+                    />
+                    Team Sports
+                  </Label>
+                  <Label className="flex items-center gap-2">
+                    <Checkbox
+                      checked={filters.category.includes("Hiking and Camping")}
+                      onCheckedChange={() =>
+                        handleCategoryFilter("Hiking and Camping")
+                      }
+                    />
+                    Hiking and Camping
                   </Label>
                 </div>
               </div>
               <div>
                 <h3 className="text-base font-medium mb-2">Price</h3>
-                <div />
+                <div className="flex flex-col gap-2">
+                  {priceRanges.map((range) => (
+                    <Label
+                      key={`${range.min}-${range.max}`}
+                      className="flex items-center gap-2"
+                    >
+                      <Checkbox
+                        checked={
+                          filters.price.min === range.min &&
+                          filters.price.max === range.max
+                        }
+                        onCheckedChange={() =>
+                          handlePriceFilter(range.min, range.max)
+                        }
+                      />
+                      {range.label}
+                    </Label>
+                  ))}
+                </div>
               </div>
               <div>
                 <h3 className="text-base font-medium mb-2">Brand</h3>
@@ -195,19 +281,16 @@ const AllProducts = () => {
               </div>
               <div>
                 <h3 className="text-base font-medium mb-2">Rating</h3>
-                <div className="grid gap-2">
-                  <Label className="flex items-center gap-2">
-                    <div />4 stars and above
-                  </Label>
-                  <Label className="flex items-center gap-2">
-                    <div />3 stars and above
-                  </Label>
-                  <Label className="flex items-center gap-2">
-                    <div />2 stars and above
-                  </Label>
-                  <Label className="flex items-center gap-2">
-                    <div />1 star and above
-                  </Label>
+                <div className="flex flex-col gap-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Label key={star} className="flex items-center gap-2">
+                      <Checkbox
+                        checked={filters.rating === star}
+                        onCheckedChange={() => handleRatingFilter(star)}
+                      />
+                      {star} Star
+                    </Label>
+                  ))}
                 </div>
               </div>
               <Button
