@@ -1,30 +1,83 @@
-# React + TypeScript + Vite
+## Project Name: Sport Haven Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Introduction
 
-Currently, two official plugins are available:
+Sport Haven server to is server the frontend data. There are manage Product data Like: Create product, delete product, update product, delete product. Same like Order management.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project i using for handle Error, good maintainable code and good structure code.
 
-## Expanding the ESLint configuration
+# Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+* Product Management
+* Featured Product
+* Add Cart Functionality
+* Checkout system
+* Contact to Admin
+* Filter, Sort, Search system for product page
 
-- Configure the top-level `parserOptions` property like this:
 
+# Technology Stack
+
+* React.js
+* React Router Dom
+* React Hook Form
+* Shadcn
+* Redux Toolkit with RTKQuery
+* Lucid Icon
+
+## Installation Guideline
+
+# Prerequisites
+
+* Node.js 18.00 version upper
+
+# Installation Steps
+
+1. First create a react project using vite 
 ```js
+npm create vite@latest
+```
+2. Install all dependent packages
+```js
+npm i react-router-dom react-icons  @reduxjs/toolkit react-redux 
+```
+3. Install tailwindcss
+```js
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+4. Configure template paths for tailwindcss
+```
+/** @type {import('tailwindcss').Config} */
 export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
   },
+  plugins: [],
 }
 ```
+5. Add the tailwind directives to your ./src/index.css file
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+6. Run the project
+```
+npm run dev
+```
+
+# Usage 
+
+First see the home page and you want to make purchase product then click the all product page nad click one product view details then there see all information. Then you are interested then click add to card button and see cart if interested then checkout and fill your billing information and place order ok
+
+
+
+
+
+

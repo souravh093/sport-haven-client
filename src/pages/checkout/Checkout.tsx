@@ -9,8 +9,7 @@ import { useCreateOrderMutation } from "@/redux/features/order/orderApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { TOrder } from "@/types/FormInterface";
 import { Label } from "@radix-ui/react-label";
-import { FormEventHandler } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { MdOutlineDone } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
@@ -35,7 +34,7 @@ const Checkout = () => {
     return product.stockQuantity < product.quantity;
   });
 
-  const onSubmit: FormEventHandler<TOrder> = async (data) => {
+  const onSubmit: SubmitHandler<TOrder> = async (data) => {
     const order = {
       ...data,
       paymentMethod: "Cash on Delivery",

@@ -25,7 +25,7 @@ const SingleProduct = () => {
     category,
     brand,
     stockQuantity,
-    rating,
+    // rating,
     price,
     image,
     description,

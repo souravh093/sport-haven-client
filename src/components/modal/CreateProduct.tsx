@@ -20,6 +20,7 @@ import { toast } from "../ui/use-toast";
 import { FormValues } from "@/types/FormInterface";
 
 const CreateProduct = () => {
+  const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [createProduct, { isLoading }] = useCreateProductMutation();
   const {
@@ -29,7 +30,7 @@ const CreateProduct = () => {
     reset,
     formState: { errors },
   } = useForm<FormValues>();
-
+  
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { name, price, brand, category, quantity, description, image } = data;
 
@@ -51,6 +52,7 @@ const CreateProduct = () => {
 
       if (res.success) {
         reset();
+        setOpen(true)
         toast({
           variant: "default",
           description: "Product added successfully",
@@ -72,7 +74,7 @@ const CreateProduct = () => {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="sm" className="bg-gray-800 text-gray-400">
           <PlusIcon className="h-4 w-4 mr-2" />

@@ -25,7 +25,7 @@ import { FaEdit } from "react-icons/fa";
 const EditProduct = ({ id }: { id: string }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { data: product, isLoading } = useGetSingleProductQuery(id);
-  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
   const {
     register,
     handleSubmit,
