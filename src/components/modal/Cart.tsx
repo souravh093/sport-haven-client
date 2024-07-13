@@ -7,9 +7,10 @@ import {
 import { useAppSelector } from "@/redux/hook";
 import CartCard from "../card/CartCard";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CreateProduct = () => {
+  const navigate = useNavigate();
   const cartProducts = useAppSelector((state) => state.cart.items);
   const totalPrice = cartProducts.reduce((acc, item) => {
     return acc + item.price * item.quantity;
@@ -17,9 +18,12 @@ const CreateProduct = () => {
 
   const totalPriceWithVat = totalPrice + totalPrice * 0.15;
 
-  //   if any of the cart products is out of stock, disable the checkout button
   const isDisabled = cartProducts.some((product) => {
     return product.stockQuantity < product.quantity;
+  });
+
+  const isOutOfStock = cartProducts.some((product) => {
+    return product.stockQuantity === 0;
   });
 
   return (
@@ -65,16 +69,15 @@ const CreateProduct = () => {
               </div>
             </div>
             <div className="mt-4 flex gap-2">
-              <Link  to={"/checkout"}>
-                <Button
-                  disabled={isDisabled}
-                  className={`flex-1 bg-red-500 hover:bg-red-600 cursor-pointer ${
-                    isDisabled && "cursor-not-allowed"
-                  }`}
-                >
-                  Checkout
-                </Button>
-              </Link>
+              <Button
+                disabled={isDisabled || isOutOfStock}
+                onClick={() => navigate("/checkout")}
+                className={`flex-1 bg-red-500 hover:bg-red-600 cursor-pointer ${
+                  isDisabled || (isOutOfStock && "cursor-not-allowed")
+                }`}
+              >
+                Checkout
+              </Button>
             </div>
           </div>
         ) : (

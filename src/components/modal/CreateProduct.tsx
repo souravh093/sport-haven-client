@@ -31,6 +31,10 @@ const CreateProduct = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   const uploadImageToImgbb = async (
     imageFile: File
   ): Promise<string | null> => {
@@ -84,13 +88,10 @@ const CreateProduct = () => {
     try {
       const res = await createProduct(formData).unwrap();
 
-      console.log(res);
-
-      console.log(res);
 
       if (res.success) {
         reset();
-        setOpen(true);
+        handleClose()
         toast({
           variant: "default",
           description: "Product added successfully",

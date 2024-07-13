@@ -6,6 +6,7 @@ declare module 'react-rating' {
       emptySymbol?: React.ReactNode;
       fullSymbol?: React.ReactNode;
       readonly?: boolean;
+      onChange?: (rating: number) => void;
     }
   
     export default class Rating extends Component<RatingProps> {}

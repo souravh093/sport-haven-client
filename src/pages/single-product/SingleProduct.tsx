@@ -2,7 +2,10 @@ import Container from "@/components/shared/Container";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { addItem } from "@/redux/features/cart/cartSlice";
-import { useGetSingleProductQuery } from "@/redux/features/product/productApi";
+import {
+  useGetSingleProductQuery,
+  useStoreRatingMutation,
+} from "@/redux/features/product/productApi";
 import { useAppDispatch } from "@/redux/hook";
 import Rating from "react-rating";
 import { useParams } from "react-router-dom";
@@ -10,6 +13,7 @@ import { useParams } from "react-router-dom";
 const SingleProduct = () => {
   const { id } = useParams();
   const { data: singleProduct, isLoading } = useGetSingleProductQuery(id);
+  const [updateRating] = useStoreRatingMutation();
   const dispatch = useAppDispatch();
 
   if (isLoading) {
@@ -21,11 +25,12 @@ const SingleProduct = () => {
   }
 
   const {
+    _id,
     name,
     category,
     brand,
     stockQuantity,
-    // rating,
+    rating,
     price,
     image,
     description,
@@ -47,6 +52,19 @@ const SingleProduct = () => {
       description: "Product added to cart",
     });
   };
+
+  const getSetRating = async (rate: number) => {
+    const res = await updateRating({ id: _id, data: { rating: rate } }).unwrap();
+    
+    if (res.success) {
+      toast({
+        variant: "default",
+        description: "Rating updated successfully",
+      });
+    }
+  };
+
+  const formatRating = Number(rating.toFixed(1));
 
   return (
     <div className="bg-gray-900 min-h-[calc(100vh-272px)]">
@@ -79,7 +97,8 @@ const SingleProduct = () => {
               <p>{description}</p>
               <div className="flex items-center gap-4">
                 <Rating
-                  initialRating={4.3}
+                  onChange={(rate) => getSetRating(rate)}
+                  initialRating={rating}
                   emptySymbol={
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -110,9 +129,8 @@ const SingleProduct = () => {
                       />
                     </svg>
                   }
-                  readonly
                 />
-                <span className="text-white">{4.3}</span>
+                <span className="text-white">{formatRating}</span>
               </div>
               <div className="flex items-center gap-4">
                 <span className="font-medium text-white">In Stock:</span>

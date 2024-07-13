@@ -6,6 +6,9 @@ import { TProduct } from "@/types/ProductInterface";
 const ProductCard = ({ product }: { product: TProduct }) => {
   const { _id, name, category, brand, stockQuantity, rating, price, image } =
     product;
+
+  const formatRating = Number(rating.toFixed(1));
+
   return (
     <div className="group relative overflow-hidden rounded-lg bg-gray-800 border-gray-700 border shadow-lg transition-all duration-300 hover:shadow-xl">
       <img
@@ -32,7 +35,7 @@ const ProductCard = ({ product }: { product: TProduct }) => {
         </h3>
         <div className="mt-2 flex items-center space-x-2">
           <Rating
-            initialRating={3.5}
+            initialRating={rating}
             emptySymbol={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +69,7 @@ const ProductCard = ({ product }: { product: TProduct }) => {
             readonly
           />
           <span className="text-sm font-medium text-muted-foreground">
-            {rating}
+            {formatRating}
           </span>
         </div>
         <div className="mt-4 flex items-center justify-between">

@@ -43,7 +43,7 @@ const ManageProducts = () => {
   };
 
   return (
-    <div className="bg-gray-900 py-8 min-h-[calc(100vh-272px)]">
+    <div className="bg-gray-900 py-8 min-h-[calc(100vh-240px)]">
       <Container>
         <div>
           <div className="flex items-center justify-between">
@@ -102,7 +102,7 @@ const ManageProducts = () => {
                         brand,
                         category,
                         stockQuantity,
-                        //   rating,
+                        rating,
                         image,
                       }: TProduct,
                       index: number
@@ -135,7 +135,7 @@ const ManageProducts = () => {
                           {stockQuantity}
                         </TableCell>
                         <TableCell className="text-right text-gray-300">
-                          {4.3}
+                          {rating}
                         </TableCell>
                         <TableCell className="text-right text-gray-300">
                           <EditProduct id={_id} />

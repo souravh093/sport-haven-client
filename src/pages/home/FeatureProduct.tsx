@@ -4,7 +4,15 @@ import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/ProductInterface";
 
 const FeatureProduct = () => {
-  const { data: products } = useGetAllProductsQuery({ page: 1, limit: 4 });
+  const { data: products } = useGetAllProductsQuery(
+    {
+      page: 1,
+      limit: 4,
+    },
+    {
+      pollingInterval: 30000,
+    }
+  );
 
   return (
     <div className="py-16 bg-gray-950 px-5 md:px-0 ">

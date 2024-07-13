@@ -23,6 +23,7 @@ import { FormValues } from "@/types/FormInterface";
 import { FaEdit } from "react-icons/fa";
 
 const EditProduct = ({ id }: { id: string }) => {
+  const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { data: product, isLoading } = useGetSingleProductQuery(id);
   const [updateProduct] = useUpdateProductMutation();
@@ -32,6 +33,10 @@ const EditProduct = ({ id }: { id: string }) => {
     control,
     formState: { errors },
   } = useForm<FormValues>();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const uploadImageToImgbb = async (
     imageFile: File
@@ -91,6 +96,7 @@ const EditProduct = ({ id }: { id: string }) => {
           variant: "default",
           description: "Product updated successfully",
         });
+        handleClose();
       }
     } catch (error) {
       console.log(error);
@@ -114,7 +120,7 @@ const EditProduct = ({ id }: { id: string }) => {
     product.data;
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="sm" className="bg-primary mr-2">
           <FaEdit />
