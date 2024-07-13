@@ -10,12 +10,19 @@ import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Link } from "react-router-dom";
-
+import { motion } from "framer-motion";
+import { fadeIn } from "@/variants";
 const Contact = () => {
   return (
-    <div className="bg-gray-950 border-b border-gray-800 text-gray-400 py-24">
+    <div className="bg-gray-950 border-b border-gray-800 text-gray-400 py-24 md:px-0 px-5">
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-10">
+        <motion.div
+          variants={fadeIn("up", 0)}
+          initial="hidden"
+          whileInView={"show"}
+          viewport={{ once: false, amount: 0.7 }}
+          className="grid grid-cols-1 md:grid-cols-2 items-center gap-10"
+        >
           <div>
             <div className="flex flex-col items-center">
               <div className="mb-6 inline-block rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white">
@@ -106,7 +113,7 @@ const Contact = () => {
               </form>
             </div>
           </div>
-        </div>
+        </motion.div>
       </Container>
     </div>
   );

@@ -13,8 +13,12 @@ const SingleProduct = () => {
   const dispatch = useAppDispatch();
 
   if (isLoading) {
-    return <div>Loading...</div>;
-  } // TODO
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-900">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-500 border-opacity-50"></div>
+      </div>
+    );
+  }
 
   const {
     name,
@@ -45,9 +49,9 @@ const SingleProduct = () => {
   };
 
   return (
-    <div className="bg-gray-900">
+    <div className="bg-gray-900 min-h-[calc(100vh-272px)]">
       <Container>
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start  px-4 mx-auto py-6 h-[calc(100vh-272px)] bg-gray-900">
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start  px-4 mx-auto py-6  bg-gray-900">
           <div>
             <img
               src={image}

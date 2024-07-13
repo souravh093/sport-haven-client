@@ -1,3 +1,4 @@
+import OrderConfirmation from "@/components/general/OrderConfirmation";
 import MainLayout from "@/components/layout/MainLayout";
 import About from "@/pages/about/About";
 import AllProducts from "@/pages/all-products/AllProducts";
@@ -21,21 +22,25 @@ const router = createBrowserRouter([
         element: <AllProducts />,
       },
       {
-         path: "/manage-products",
-         element: <ManageProducts />,
+        path: "/manage-products",
+        element: <ManageProducts />,
       },
       {
         path: "/single-product/:id",
-        element: <SingleProduct />
+        element: <SingleProduct />,
       },
       {
         path: "/about-us",
-        element: <About />
+        element: <About />,
       },
       {
         path: "/checkout",
-        element: <Checkout />
-      }
+        element: <Checkout />,
+      },
+      {
+        path: "/order-confirmation",
+        element: <OrderConfirmation />,
+      },
     ],
   },
 ]);

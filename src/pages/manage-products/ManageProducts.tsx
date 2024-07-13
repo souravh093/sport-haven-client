@@ -27,7 +27,7 @@ const ManageProducts = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
-  const { data: products } = useGetAllProductsQuery(searchTerm);
+  const { data: products } = useGetAllProductsQuery({searchTerm});
 
   const [deleteProduct] = useDeleteProductMutation(undefined);
 

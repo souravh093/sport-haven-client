@@ -17,16 +17,7 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import { useCreateProductMutation } from "@/redux/features/product/productApi";
 import { useState } from "react";
 import { toast } from "../ui/use-toast";
-
-type FormValues = {
-  name: string;
-  price: number;
-  brand: string;
-  category: string;
-  quantity: number;
-  description: string;
-  image: FileList;
-};
+import { FormValues } from "@/types/FormInterface";
 
 const CreateProduct = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);

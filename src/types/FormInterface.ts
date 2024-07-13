@@ -7,3 +7,10 @@ export type FormValues = {
   description: string;
   image: FileList;
 };
+
+export type TOrder = {
+  name: string;
+  email: string;
+  number: string;
+  address: string;
+}

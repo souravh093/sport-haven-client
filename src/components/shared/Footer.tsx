@@ -10,7 +10,7 @@ import logo from "../../assets/volleyball.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-black py-12">
+    <footer className="bg-black py-12 md:px-0 px-5">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex">

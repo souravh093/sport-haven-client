@@ -4,10 +4,10 @@ import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@/types/ProductInterface";
 
 const FeatureProduct = () => {
-  const { data: products } = useGetAllProductsQuery({});
+  const { data: products } = useGetAllProductsQuery({ page: 1, limit: 4 });
 
   return (
-    <div className="py-16 bg-gray-950">
+    <div className="py-16 bg-gray-950 px-5 md:px-0 ">
       <Container>
         <div className="flex flex-col items-center justify-center space-y-6 pb-10">
           <div className="space-y-2 text-center">
@@ -20,7 +20,7 @@ const FeatureProduct = () => {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
           {products?.data?.map((product: TProduct) => (
             <ProductCard key={product._id} product={product} />
           ))}

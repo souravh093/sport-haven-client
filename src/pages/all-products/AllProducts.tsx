@@ -21,6 +21,7 @@ import ProductCard from "@/components/card/ProductCard";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import Container from "@/components/shared/Container";
 import { TProduct } from "@/types/ProductInterface";
+import { useLocation } from "react-router-dom";
 
 const priceRanges = [
   { min: 0, max: 50, label: "$0 - $50" },
@@ -31,6 +32,9 @@ const priceRanges = [
 ];
 
 const AllProducts = () => {
+  const location = useLocation();
+  const category = location.state?.category;
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<{
     category: string[];
@@ -38,16 +42,17 @@ const AllProducts = () => {
     brand: string[];
     rating: number | null;
   }>({
-    category: [],
+    category: [
+      ...(category ? [category] : []),
+    ],
     price: { min: null, max: null },
     brand: [],
     rating: null,
   });
 
-  console.log(filters, "hello filters");
   const [sortOrder, setSortOrder] = useState("asc");
 
-  const { data: products } = useGetAllProductsQuery({
+  const { data: products, isLoading } = useGetAllProductsQuery({
     searchTerm,
     sort: sortOrder,
     filters: {
@@ -59,8 +64,6 @@ const AllProducts = () => {
       rating: filters.rating !== null ? filters.rating : undefined,
     },
   });
-
-  console.log("filters =>", filters);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -98,17 +101,14 @@ const AllProducts = () => {
   };
 
   const handlePriceFilter = (minPrice: number, maxPrice: number) => {
-    setFilters((prevFilters) => (
-      {
-        ...prevFilters,
-        price: {
-          min: minPrice,
-          max: maxPrice,
-        },
-      }
-    ));
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      price: {
+        min: minPrice,
+        max: maxPrice,
+      },
+    }));
   };
-  
 
   const handleRatingFilter = (rating: number) => {
     setFilters((prevFilters) => ({
@@ -340,10 +340,22 @@ const AllProducts = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-              {products?.data?.map((product: TProduct) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
+            <div>
+              {products?.data.length < 1 ? (
+                <p className="text-gray-400 text-4xl font-bold flex items-center min-h-screen justify-center">
+                  No products found
+                </p>
+              ) : isLoading ? (
+                <div className="flex items-center justify-center min-h-screen bg-gray-900">
+                  <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-500 border-opacity-50"></div>
+                </div>
+              ) : (
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+                  {products?.data?.map((product: TProduct) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@ const productApi = baseApi.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     getAllProducts: builder.query({
-      query: ({ searchTerm, sort, fields, filters }) => {
+      query: ({ searchTerm, sort, fields, filters, page, limit }) => {
         console.log(filters, "hello filters");
         const params = new URLSearchParams();
 
@@ -25,6 +25,14 @@ const productApi = baseApi.injectEndpoints({
 
         if (fields) {
           params.append("fields", fields);
+        }
+
+        if (page) {
+          params.append("page", page.toString());
+        }
+
+        if (limit) {
+          params.append("limit", limit.toString());
         }
 
         if (filters) {
