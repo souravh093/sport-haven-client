@@ -85,7 +85,7 @@ const EditProduct = ({ id }: { id: string }) => {
       category,
       stockQuantity: quantity,
       description,
-      image: imageUrl,
+      image: imageUrl || product.data.image,
     };
 
     try {
@@ -207,33 +207,51 @@ const EditProduct = ({ id }: { id: string }) => {
                     <SelectGroup>
                       <SelectItem
                         className="text-white hover:bg-gray-600"
-                        value="apple"
+                        value="Adidas"
                       >
-                        Apple
+                        Adidas
                       </SelectItem>
                       <SelectItem
                         className="text-white hover:bg-gray-600"
-                        value="banana"
+                        value="Nike"
                       >
-                        Banana
+                        Nike
                       </SelectItem>
                       <SelectItem
                         className="text-white hover:bg-gray-600"
-                        value="blueberry"
+                        value="Puma"
                       >
-                        Blueberry
+                        Puma
                       </SelectItem>
                       <SelectItem
                         className="text-white hover:bg-gray-600"
-                        value="grapes"
+                        value="Asdics"
                       >
-                        Grapes
+                        Asdics
                       </SelectItem>
                       <SelectItem
                         className="text-white hover:bg-gray-600"
-                        value="pineapple"
+                        value="Under Armour"
                       >
-                        Pineapple
+                        Under Armour
+                      </SelectItem>
+                      <SelectItem
+                        className="text-white hover:bg-gray-600"
+                        value="Reebok"
+                      >
+                        Reebok
+                      </SelectItem>
+                      <SelectItem
+                        className="text-white hover:bg-gray-600"
+                        value="New Balance"
+                      >
+                        New Balance
+                      </SelectItem>
+                      <SelectItem
+                        className="text-white hover:bg-gray-600"
+                        value="Saucy"
+                      >
+                        Saucy
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -264,33 +282,39 @@ const EditProduct = ({ id }: { id: string }) => {
                     <SelectGroup>
                       <SelectItem
                         className="text-white hover:bg-gray-600"
-                        value="apple"
+                        value="Running Shoes"
                       >
-                        Apple
+                        Running Shoes
                       </SelectItem>
                       <SelectItem
                         className="text-white hover:bg-gray-600"
-                        value="banana"
+                        value="Athletic Apparel"
                       >
-                        Banana
+                        Athletic Apparel
                       </SelectItem>
                       <SelectItem
                         className="text-white hover:bg-gray-600"
-                        value="blueberry"
+                        value="Fitness Equipment"
                       >
-                        Blueberry
+                        Fitness Equipment
                       </SelectItem>
                       <SelectItem
                         className="text-white hover:bg-gray-600"
-                        value="grapes"
+                        value="Outdoor Gear"
                       >
-                        Grapes
+                        Outdoor Gear
                       </SelectItem>
                       <SelectItem
                         className="text-white hover:bg-gray-600"
-                        value="pineapple"
+                        value="Team Sports"
                       >
-                        Pineapple
+                        Team Sports
+                      </SelectItem>
+                      <SelectItem
+                        className="text-white hover:bg-gray-600"
+                        value="Hiking and Camping"
+                      >
+                        Hiking and Camping
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>
