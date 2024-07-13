@@ -12,7 +12,6 @@ const productApi = baseApi.injectEndpoints({
     }),
     getAllProducts: builder.query({
       query: ({ searchTerm, sort, fields, filters, page, limit }) => {
-        console.log(filters, "hello filters");
         const params = new URLSearchParams();
 
         if (searchTerm) {

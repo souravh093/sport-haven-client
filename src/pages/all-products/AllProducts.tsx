@@ -63,6 +63,8 @@ const AllProducts = () => {
       },
       rating: filters.rating !== null ? filters.rating : undefined,
     },
+  }, {
+    pollingInterval: 30000,
   });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

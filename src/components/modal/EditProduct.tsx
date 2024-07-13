@@ -33,23 +33,55 @@ const EditProduct = ({ id }: { id: string }) => {
     formState: { errors },
   } = useForm<FormValues>();
 
+  const uploadImageToImgbb = async (
+    imageFile: File
+  ): Promise<string | null> => {
+    const apiKey = "800d9ccab79ca9e964c7b1edac462750";
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    formData.append("key", apiKey || "");
+
+    try {
+      const response = await fetch("https://api.imgbb.com/1/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+      if (result.success) {
+        return result.data.url;
+      } else {
+        throw new Error("Image upload failed");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      return null;
+    }
+  };
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { name, price, brand, category, quantity, description, image } = data;
 
-    console.log(data);
-
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("price", price.toString());
-    formData.append("brand", brand);
-    formData.append("category", category);
-    formData.append("stockQuantity", quantity.toString());
-    formData.append("description", description);
-
-    // Append image file if available
+    let imageUrl = null;
     if (image && image[0]) {
-      formData.append("image", image[0]);
+      imageUrl = await uploadImageToImgbb(image[0]);
+      if (!imageUrl) {
+        toast({
+          variant: "destructive",
+          description: "Failed to upload image",
+        });
+        return;
+      }
     }
+
+    const formData = {
+      name,
+      price,
+      brand,
+      category,
+      stockQuantity: quantity,
+      description,
+      image: imageUrl,
+    };
 
     try {
       const res = await updateProduct({ id, data: formData }).unwrap();

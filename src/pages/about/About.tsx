@@ -93,21 +93,15 @@ const About = () => {
                 <div className="mt-8 space-y-4">
                   <div className="flex items-center gap-2">
                     <PhoneIcon className="h-6 w-6 text-muted-foreground" />
-                    <a
-                      href="#"
-                      className="text-muted-foreground hover:underline"
-                    >
+                    <h1 className="text-muted-foreground hover:underline">
                       +88 013 076 289 55
-                    </a>
+                    </h1>
                   </div>
                   <div className="flex items-center gap-2">
                     <MailIcon className="h-6 w-6 text-muted-foreground" />
-                    <a
-                      href="#"
-                      className="text-muted-foreground hover:underline"
-                    >
+                    <h1 className="text-muted-foreground hover:underline">
                       souravehalder925@gmail.com
-                    </a>
+                    </h1>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPinIcon className="h-6 w-6 text-muted-foreground" />

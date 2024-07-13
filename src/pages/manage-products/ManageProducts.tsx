@@ -27,7 +27,7 @@ const ManageProducts = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
-  const { data: products } = useGetAllProductsQuery({searchTerm});
+  const { data: products, isLoading } = useGetAllProductsQuery({ searchTerm });
 
   const [deleteProduct] = useDeleteProductMutation(undefined);
 
@@ -83,62 +83,72 @@ const ManageProducts = () => {
                   </TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
-                {products?.data?.map(
-                  (
-                    {
-                      _id,
-                      name,
-                      price,
-                      brand,
-                      category,
-                      stockQuantity,
-                      //   rating,
-                      image,
-                    }: TProduct,
-                    index: number
-                  ) => (
-                    <TableRow
-                      key={index + 1}
-                      className="border-t border-gray-700 hover:bg-gray-700"
-                    >
-                      <TableCell className="font-medium text-gray-300">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell className="text-gray-300">
-                        <div className="flex items-center gap-4">
-                          <img
-                            src={image}
-                            alt="Product Image"
-                            className="w-12 h-12 object-cover rounded-md bg-white"
-                          />
-                          <span>{name}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-gray-300">{price}</TableCell>
-                      <TableCell className="text-right text-gray-300">
-                        {brand}
-                      </TableCell>
-                      <TableCell className="text-right text-gray-300">
-                        {category}
-                      </TableCell>
-                      <TableCell className="text-right text-gray-300">
-                        {stockQuantity}
-                      </TableCell>
-                      <TableCell className="text-right text-gray-300">
-                        {4.3}
-                      </TableCell>
-                      <TableCell className="text-right text-gray-300">
-                        <EditProduct id={_id} />
-                        <Button
-                          onClick={() => handleDeleteProduct(_id)}
-                          size="sm"
-                          className="bg-red-500"
-                        >
-                          <MdDeleteOutline />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
+              <TableBody className="w-full">
+                {products?.data?.length < 1 ? (
+                  <p className="text-gray-400 px-5 py-2 w-[200px] font-bold flex items-center justify-center">
+                    No products found
+                  </p>
+                ) : isLoading ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-opacity-50"></div>
+                  </div>
+                ) : (
+                  products?.data?.map(
+                    (
+                      {
+                        _id,
+                        name,
+                        price,
+                        brand,
+                        category,
+                        stockQuantity,
+                        //   rating,
+                        image,
+                      }: TProduct,
+                      index: number
+                    ) => (
+                      <TableRow
+                        key={index + 1}
+                        className="border-t border-gray-700 hover:bg-gray-700"
+                      >
+                        <TableCell className="font-medium text-gray-300">
+                          {index + 1}
+                        </TableCell>
+                        <TableCell className="text-gray-300">
+                          <div className="flex items-center gap-4">
+                            <img
+                              src={image}
+                              alt="Product Image"
+                              className="w-12 h-12 object-cover rounded-md bg-white"
+                            />
+                            <span>{name}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-gray-300">{price}</TableCell>
+                        <TableCell className="text-right text-gray-300">
+                          {brand}
+                        </TableCell>
+                        <TableCell className="text-right text-gray-300">
+                          {category}
+                        </TableCell>
+                        <TableCell className="text-right text-gray-300">
+                          {stockQuantity}
+                        </TableCell>
+                        <TableCell className="text-right text-gray-300">
+                          {4.3}
+                        </TableCell>
+                        <TableCell className="text-right text-gray-300">
+                          <EditProduct id={_id} />
+                          <Button
+                            onClick={() => handleDeleteProduct(_id)}
+                            size="sm"
+                            className="bg-red-500"
+                          >
+                            <MdDeleteOutline />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    )
                   )
                 )}
               </TableBody>
