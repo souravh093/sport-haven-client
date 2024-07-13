@@ -19,7 +19,7 @@ const FeatureProduct = () => {
       <Container>
         <div className="flex flex-col items-center justify-center space-y-6 pb-10">
           <div className="space-y-2 text-center">
-            <h2 className="text-3xl text-gray-400 font-bold tracking-tight sm:text-4xl uppercase">
+            <h2 className="text-3xl text-gray-400 font-bold tracking-tight sm:text-4xl uppercase">  
               Featured Sports Gear
             </h2>
             <p className="max-w-md text-muted-foreground">

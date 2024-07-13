@@ -352,7 +352,7 @@ const AllProducts = () => {
                   <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-500 border-opacity-50"></div>
                 </div>
               ) : (
-                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+                <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                   {products?.data?.map((product: TProduct) => (
                     <ProductCard key={product._id} product={product} />
                   ))}
